@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OnboardingServicioNotificaciones.Application.UseCase.V1.PedidoOperation.Commands
 {
-    public class AsignarPedidoCommand : IRequest<bool>
+    public class AsignarPedidoCommand : IRequest<Pedido>
     {
         public AsignarPedidoCommand(Pedido pedidon)
         {
@@ -20,7 +20,7 @@ namespace OnboardingServicioNotificaciones.Application.UseCase.V1.PedidoOperatio
 
         public Pedido pedido { get; set; }
     }
-    public class UpdatePedidoCommandHandler : IRequestHandler<AsignarPedidoCommand, bool>
+    public class UpdatePedidoCommandHandler : IRequestHandler<AsignarPedidoCommand, Pedido>
     {
 
         private readonly ILogger<UpdatePedidoCommandHandler> _logger;
@@ -30,10 +30,11 @@ namespace OnboardingServicioNotificaciones.Application.UseCase.V1.PedidoOperatio
             _logger = logger;
         }
 
-        public async Task<bool> Handle(AsignarPedidoCommand request, CancellationToken cancellationToken)
+        public async Task<Pedido> Handle(AsignarPedidoCommand request, CancellationToken cancellationToken)
         {
             request.pedido.numeroDePedido = new Random().Next();
-            return true;
+            _logger.LogInformation("el numero de pedido asignado fue" + request.pedido.numeroDePedido);
+            return request.pedido;
         }
     }
 }

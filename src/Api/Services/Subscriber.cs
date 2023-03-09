@@ -25,9 +25,9 @@ namespace OnboardingServicioNotificaciones.Services
         }
         public async Task ReciveCustomEvent(Pedido @event)
         {
-            await _mediator.Send(new AsignarPedidoCommand(@event));
+            var pedido = await _mediator.Send(new AsignarPedidoCommand(@event));
 
-            await _publisher.To(@event, @event.id);
+            await _publisher.To(pedido, @event.id);
         }
 
     }
